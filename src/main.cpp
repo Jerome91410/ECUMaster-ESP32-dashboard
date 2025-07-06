@@ -6,11 +6,11 @@
 #include <string>
 using namespace std;
 
-#include <EMUSerial.h>
-#include <displayControl.h>
-
+#include "EMUSerial.h"
 #include "emu_mac_address.h"
 #include "ledControl.h"
+#include "my_config.h"
+#include "ui.h"
 
 #if !defined(CONFIG_BT_SPP_ENABLED)
 #error Serial Bluetooth not available or not enabled. It is only available for the ESP32 chip.
@@ -19,37 +19,26 @@ using namespace std;
 BluetoothSerial SerialBT;
 EMUSerial emuSerial;
 
-// #define USE_NAME
 const char *pin = "1234";
 String myBtName = "ESP32-BT-Master";
-
-#ifdef USE_NAME
-String slaveName = "EMUCANBT_SPP";  // not recommended
-#else
 uint8_t address[6] = {MAC0, MAC1, MAC2, MAC3, MAC4, MAC5};  // setup the value in lib/emu_mac_address.h
-#endif
-
-// #define BUZZ_ALARM
 const int buzzerPin = 22;
 bool buzzerOn = false;
 
 const unsigned long reconnectInterval = 5000;
 // Display & LVGL setup
-lv_obj_t *table;
 
 void connectToBt() {
   bool connected;
   if (!SerialBT.hasClient()) {
     ledLightBlue();
-#ifdef USE_NAME
-    connected = SerialBT.connect(slaveName);
-#else
     connected = SerialBT.connect(address);
-#endif
     if (connected) {
       Serial.println("Connected Successfully!");
       ledBlue();
     } else {
+      // reset values from emuSerial
+      emuSerial.init();
       Serial.println("Initial connect failed. Will retry in loop...");
       ledRed();
       delay(1000);
@@ -57,21 +46,16 @@ void connectToBt() {
   }
 }
 
-const int maxRPM = 7200;
-const int shiftlightRPM1 = maxRPM * 0.88;
-const int shiftlightRPM2 = maxRPM * 0.95;
 void refreshLed() {
   if (!SerialBT.hasClient()) {
-    // we should reinit all values
-    emuSerial.emu_data.cel = 0;
     ledBlinkBlue();
   } else {
     if (emuSerial.emu_data.cel > 0) {
       ledRed();
     } else {
-      if (emuSerial.emu_data.RPM < shiftlightRPM1) {
+      if (emuSerial.emu_data.RPM < SHIFTLIGHT_RPM_1) {
         ledBlue();
-      } else if (emuSerial.emu_data.RPM > shiftlightRPM2) {
+      } else if (emuSerial.emu_data.RPM > SHIFTLIGHT_RPM_2) {
         ledFastBlinkWhite();
       } else {
         ledWhite();
@@ -85,7 +69,7 @@ void callbackReadBTData(const uint8_t *buffer, size_t size) {
 }
 
 void refreshDisplay() {
-  renderDisplay(table, emuSerial);
+  ui_Screen1_render(emuSerial);
 }
 
 void buzzAlarms() {
@@ -102,28 +86,25 @@ void setup() {
   // init Serial
   Serial.begin(115200);
   Serial.println("Serial init");
-  Serial.printf("maxRPM: %d\n", maxRPM);
-  Serial.printf("shiftlightRPM1: %d\n", shiftlightRPM1);
-  Serial.printf("shiftlightRPM2: %d\n", shiftlightRPM2);
+  Serial.printf("MAX_RPM: %d\n", MAX_RPM);
+  Serial.printf("SHIFTLIGHT_RPM_1: %d\n", SHIFTLIGHT_RPM_1);
+  Serial.printf("SHIFTLIGHT_RPM_2: %d\n", SHIFTLIGHT_RPM_2);
 
   // Init led
   initLed();
-  // set grid
-  table = initDisplay();
+  ui_init();
   // init bluetooth
   SerialBT.begin(myBtName, true);
-#ifndef USE_NAME
   SerialBT.setPin(pin);
-#endif
   SerialBT.onData(callbackReadBTData);
 
   // init buzzer
   pinMode(buzzerPin, OUTPUT);
 
   // init tasks
-  taskManager.yieldForMicros(300);
-  taskManager.scheduleFixedRate(300, refreshLed);
-  taskManager.scheduleFixedRate(300, refreshDisplay);
+  taskManager.yieldForMicros(100);
+  taskManager.scheduleFixedRate(200, refreshLed);
+  taskManager.scheduleFixedRate(100, refreshDisplay);
   taskManager.scheduleFixedRate(reconnectInterval, connectToBt);
 
 #ifdef BUZZ_ALARM

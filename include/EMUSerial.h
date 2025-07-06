@@ -55,8 +55,8 @@ class EMUSerial {
   struct emu_data_t emu_data;
 
   void init();
-  void onReceive(const uint8_t *buffer, size_t size);
-  string decodeCel();
+  void onReceive(const uint8_t* buffer, size_t size);
+  String decodeCel();
   bool isCelOn();
 
   enum ERRORFLAG : uint16_t {
