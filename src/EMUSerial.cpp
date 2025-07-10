@@ -7,12 +7,13 @@ EMUSerial::EMUSerial() {
 }
 
 void EMUSerial::init() {
-  emu_data.analogIn1 = 0;
-  emu_data.RPM = 0;
-  emu_data.knockCount = 0;
+  // init everything except knocks count
+  uint16_t kc = emu_data.knockCount;
+  emu_data = {};
+  emu_data.knockCount = kc;
 }
 
-void EMUSerial::onReceive(const uint8_t *buffer, size_t size) {
+void EMUSerial::onReceive(const uint8_t* buffer, size_t size) {
   // This decodes the frames and fills them into the data:
 
   uint8_t channel;
@@ -115,9 +116,9 @@ bool EMUSerial::isCelOn() {
   return emu_data.cel & EFLG_ERRORMASK;
 }
 
-string EMUSerial::decodeCel() {
+String EMUSerial::decodeCel() {
   // TODO: move it in a dedicated file like emuBluetooth.cpp
-  string cel_errors = "";
+  String cel_errors;
   if (isCelOn()) {
     if (emu_data.cel & ERR_OILP) {
       cel_errors += "OIL ";

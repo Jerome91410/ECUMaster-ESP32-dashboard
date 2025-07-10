@@ -13,6 +13,7 @@
 // Section 1. Call up the right driver file and any options for it
 //
 // ##################################################################################
+#include "my_config.h"
 
 // Define STM32 to invoke optimised processor support (only for STM32)
 // #define STM32
@@ -45,7 +46,7 @@
 // #define ILI9481_DRIVER
 // #define ILI9486_DRIVER
 // #define ILI9488_DRIVER     // WARNING: Do not connect ILI9488 display SDO to MISO if other devices share the SPI bus (TFT SDO does NOT tristate when CS is high)
-#define ST7789_DRIVER  // Full configuration option, define additional parameters below for this display
+// #define ST7789_DRIVER  // Full configuration option, define additional parameters below for this display
 // #define ST7789_2_DRIVER    // Minimal configuration option, define additional parameters below for this display
 // #define R61581_DRIVER
 // #define RM68140_DRIVER
@@ -77,14 +78,26 @@
 // #define TFT_WIDTH  80
 // #define TFT_WIDTH  128
 // #define TFT_WIDTH  128 // ST7789 240 x 240 and 240 x 320
-#define TFT_WIDTH 240
-// #define TFT_WIDTH  320
+// #define TFT_WIDTH 240
+// #define TFT_WIDTH 320
 // #define TFT_HEIGHT 160
 // #define TFT_HEIGHT 128
 // #define TFT_HEIGHT 160 // ST7789 240 x 240
-#define TFT_HEIGHT 320  // ST7789 240 x 320
+// #define TFT_HEIGHT 320  // ST7789 240 x 320
 // #define TFT_HEIGHT 240 // GC9A01 240 x 240 //#define TFT_HEIGHT 480
-// #define TFT_HEIGHT 480 //
+// #define TFT_HEIGHT 480  //
+
+#ifdef JC2432W328
+#define TFT_HEIGHT 320
+#define TFT_WIDTH 240
+#define ST7789_DRIVER
+#endif
+
+#ifdef ESP32_3248S035C
+#define TFT_HEIGHT 480
+#define TFT_WIDTH 320
+#define ST7796_DRIVER
+#endif
 
 // For ST7735 ONLY, define the type of display, originally this was based on the
 // colour of the tab on the screen protector film but this is not always true, so try
@@ -319,8 +332,13 @@
 // #define SPI_FREQUENCY  20000000
 // #define SPI_FREQUENCY  27000000
 // #define SPI_FREQUENCY  40000000
+#ifdef JC2432W328
 #define SPI_FREQUENCY 55000000  // STM32 SPI1 only (SPI2 maximum is 27MHz)
-// #define SPI_FREQUENCY  65000000
+#endif
+
+#ifdef ESP32_3248S035C
+#define SPI_FREQUENCY 65000000
+#endif
 // #define SPI_FREQUENCY  80000000
 
 // Optional reduced SPI frequency for reading TFT

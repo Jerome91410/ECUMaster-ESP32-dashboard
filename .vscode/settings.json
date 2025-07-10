@@ -10,9 +10,15 @@
         "functional": "cpp",
         "tuple": "cpp",
         "type_traits": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "stdexcept": "cpp",
+        "lv_demo_widgets.h": "c",
+        "lvgl_private.h": "c",
+        "ratio": "cpp",
+        "regex": "cpp"
     },
     "editor.defaultFormatter": "xaver.clang-format",
     "editor.formatOnSave": true,
     "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, IndentWidth: 2, ColumnLimit: 0}",
+    "C_Cpp.errorSquiggles": "disabled",
 }
