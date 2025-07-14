@@ -107,6 +107,9 @@ void EMUSerial::onReceive(const uint8_t* buffer, size_t size) {
       emu_data.analogIn6 = static_cast<float>(value) / 51;
     } else if (channel == 255) {
       emu_data.cel = value;
+      if (value & KNOCKING) {
+        emu_data.knockCount++;
+      }
     }
     i += 5;
   }
