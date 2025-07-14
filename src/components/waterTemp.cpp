@@ -20,9 +20,9 @@ void draw_waterTemp(lv_obj_t* ui_screen) {
 void set_waterTemp(EMUSerial emuSerial) {
   int16_t CLT = emuSerial.emu_data.CLT;
   lv_label_set_text(ui_waterTemp, String(CLT).c_str());
-  if (CLT < 90 && CLT > 0) {
+  if (CLT < 70 && CLT > 0) {
     lv_obj_set_style_text_color(ui_waterTemp, lv_palette_main(LV_PALETTE_BLUE), LV_PART_MAIN | LV_STATE_DEFAULT);
-  } else if (CLT > 115) {
+  } else if (CLT > 95) {
     lv_obj_set_style_text_color(ui_waterTemp, lv_palette_main(LV_PALETTE_RED), LV_PART_MAIN | LV_STATE_DEFAULT);
   } else {
     lv_obj_set_style_text_color(ui_waterTemp, lv_color_white(), LV_PART_MAIN | LV_STATE_DEFAULT);

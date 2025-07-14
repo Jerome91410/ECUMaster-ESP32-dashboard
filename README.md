@@ -21,11 +21,11 @@ This project interfaces the **ECUMaster Black ECU** with an **ESP32** to create 
 
 ## ✅ Tested On
 
-- ESP32 JC2432W328
+- ESP32_3248S035C (or ESP32 JC2432W328  but need extra config...)
 - Active 3.3V buzzer
 - Arduino Core v2.0.17
 - ECUMaster Black with Bluetooth Adapter and EDL-1
-- LVGL v8.3 or v8.4 (not compatible v9.X)
+- LVGL v9.3
 
 ## 📥 Installation
 
@@ -56,29 +56,13 @@ This project interfaces the **ECUMaster Black ECU** with an **ESP32** to create 
 - [LVGL](https://lvgl.io)
 - [eSPI](https://github.com/Bodmer/TFT_eSPI)
 
-## ❓ FAQ
-
-**Q:** SerialBT.setPin() doesn't work?  
-**A:** Use ESP32 Arduino Core v2.0.17. Later versions removed this feature.
-
-**Q:** Display not initializing?  
-**A:** Check eSPI & LVGL configuration or contact the manufacturer of your display for configuration guidelines.
-
-**Q:** Blurry text?  
-**A:** Check lv_conf.h - LV_COLOR_16_SWAP
-
-**Q:** Font size not working?  
-**A:** Check lv_conf.h - Enable the required font sizes.
-
 ## 🧰 Hardware Used
 
-- **ESP32 JC2432W328**  
-  [🛒 AliExpress link](https://www.aliexpress.com/item/1005006729707613.html)
+- **ESP32_3248S035C**  
+  [🛒 AliExpress link](https://www.aliexpress.com/w/wholesale-ESP32_3248S035C.html)
   
   [Documentation](https://drive.google.com/drive/folders/1Sk4sIXgLAqPZ03BzYb0IwUftMXJ9QMLN?usp=sharing)
 
-- **3D Printed Case**  
-  [📦 Thingiverse STL](https://www.thingiverse.com/thing:6705691)
 - **ECU**  
 [ECUMaster Black](https://www.ecumaster.com/products/emu-black/)
 
@@ -87,18 +71,9 @@ This project interfaces the **ECUMaster Black ECU** with an **ESP32** to create 
 - **Active 3.3V buzzer**
  [🛒 AliExpress link](https://www.aliexpress.com/item/1005008682347898.html)
   
-## 📺 Demo Videos
 
-[![Watch on YouTube](https://img.youtube.com/vi/b16--jYl7CY/0.jpg)](https://youtu.be/b16--jYl7CY)
-
-[![Watch on YouTube](https://img.youtube.com/vi/1yv-feC6I2c/0.jpg)](https://youtu.be/1yv-feC6I2c)
 
 ## 📜 License
 
 This project is licensed under **GPL v3**.  
 See the [LICENSE](https://www.gnu.org/licenses/gpl-3.0.en.html) file for more info.
-
-## ❤️ Credits & Contributions
-
-Made with ❤️ for petrolheads.  
-Contributions, forks, and feature requests are welcome!

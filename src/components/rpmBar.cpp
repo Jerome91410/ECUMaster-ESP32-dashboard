@@ -97,25 +97,25 @@ void set_rpm(EMUSerial emuSerial) {
   if (RPM <= SHIFTLIGHT_RPM_1) {
     tft.invertDisplay(false);
     lv_obj_remove_style(ui_rpmbar, &style_rpmBar_redline, LV_PART_INDICATOR);
-#ifdef EESP32_3248S035C
+#ifdef ESP32_3248S035C
     set_gear_shiftAlert(false);
 #endif
   } else if (RPM > SHIFTLIGHT_RPM_1 && RPM < SHIFTLIGHT_RPM_2) {
     tft.invertDisplay(false);
     lv_obj_add_style(ui_rpmbar, &style_rpmBar_redline, LV_PART_INDICATOR);
-#ifdef EESP32_3248S035C
+#ifdef ESP32_3248S035C
     set_gear_shiftAlert(true);
 #endif
   } else {
     tft.invertDisplay(true);
     lv_obj_add_style(ui_rpmbar, &style_rpmBar_redline, LV_PART_INDICATOR);
-#ifdef EESP32_3248S035C
+#ifdef ESP32_3248S035C
     set_gear_shiftAlert(true);
 #endif
     lv_timer_handler();
     delay(5);
     lv_obj_remove_style(ui_rpmbar, &style_rpmBar_redline, LV_PART_INDICATOR);
-#ifdef EESP32_3248S035C
+#ifdef ESP32_3248S035C
     set_gear_shiftAlert(false);
 #endif
   }

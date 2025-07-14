@@ -8,9 +8,6 @@
 
 // #define BUZZ_ALARM
 
-// View
-#define DISPLAY_TUNER_VIEW
-
 // Device
 #define ESP32_3248S035C  // 320 x 480
 // #define JC2432W328  // 240 x 320
