@@ -71,7 +71,9 @@ This project interfaces the **ECUMaster Black ECU** with an **ESP32** to create 
 - **Active 3.3V buzzer**
  [🛒 AliExpress link](https://www.aliexpress.com/item/1005008682347898.html)
   
+## 📺 Demo Videos
 
+[![Watch on YouTube](https://img.youtube.com/vi/xY6AGlObUdg/0.jpg)](https://youtu.be/xY6AGlObUdg)
 
 ## 📜 License
 
